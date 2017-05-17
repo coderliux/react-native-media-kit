@@ -232,7 +232,7 @@ export default class MediaPlayerView extends React.Component {
       );
     }
     let videoTitle = this.props.videoTitle ;
-    if(videoTitle.length > 20)
+    if(videoTitle && videoTitle.length > 20)
       videoTitle = videoTitle.substr(0,19) + "..." ;
     let fullScreenToolbar ;
     if(this.screenStatus == 0){

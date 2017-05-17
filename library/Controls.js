@@ -211,7 +211,6 @@ export default class Controls extends React.Component {
           </Text>
         </View>
 
-      </View>
     );
   }
 }
