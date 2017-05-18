@@ -1,22 +1,22 @@
 import React, {PropTypes} from 'react';
 
 import ReactNative, {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  NativeModules,
-  requireNativeComponent,
-  Dimensions,
-  ScrollView,
-  Image,
-  Platform,
-  Animated ,
-  TouchableWithoutFeedback
+    StyleSheet,
+    Text,
+    View,
+    TouchableOpacity,
+    NativeModules,
+    requireNativeComponent,
+    Dimensions,
+    ScrollView,
+    Image,
+    Platform,
+    Animated,
+    TouchableWithoutFeedback,
 } from 'react-native';
 
 import Slider from 'react-native-slider';
-
+const {width, height} = Dimensions.get('window');
 /**
  * format as --:-- or --:--:--
  * @param timeSec
@@ -60,8 +60,8 @@ export default class Controls extends React.Component {
     current: 0,
     total: 0,
     buffering: false,
-    playing: false, 
-    screenOrientation: 1 
+    playing: false,
+    screenOrientation: 1
   }
 
   constructor(props) {
@@ -107,7 +107,8 @@ export default class Controls extends React.Component {
         let endValue = startValue + range.duration;
         return {
           key: 'bufferTrack:' + startValue + '-' + endValue,
-          startValue, endValue,
+          startValue,
+          endValue,
           style: {backgroundColor: '#eeeeee66'}
         }
       });
@@ -119,10 +120,10 @@ export default class Controls extends React.Component {
       }
     );
     let selectSourceView ;
-    
+
     if(this.props.showSource){
       selectSourceView = (
-        <TouchableOpacity 
+        <TouchableOpacity
         onPress={this.props.showAllSourceView}
         style={{width:40,height:40,alignItems:"center",justifyContent:"center"}}>
           <Text style={{textAlign:"center",fontSize:12,color:"white"}}>{this.props.sourceName}</Text>
@@ -131,86 +132,106 @@ export default class Controls extends React.Component {
     }
 
     return (
-      <View
-        style={{
-          flexDirection: 'column', alignItems: 'center', justifyContent: 'center' ,height:45
-        }}>
-        
-        <View
-          style={{position: 'absolute', left: 0, right: 0, bottom: 0, height: 40, backgroundColor: '#00000088', flexDirection: 'row'}}>
-
-          <TouchableOpacity
-            onPress={this.props.onPauseOrPlay}
-            style={{width: 40, height: 40, alignItems: 'center', justifyContent: 'center',marginLeft:10}}>
-            <Image
-              style={{width: 24, height: 24, resizeMode: 'contain'}}
-              source={this.props.playing ? require('./img/pause.png') : require('./img/play.png')}/>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={this.props.next}
-            style={{width: 40, height: 40, alignItems: 'center', justifyContent: 'center'}}>
-            <Image
-              style={{width: 24, height: 24, resizeMode: 'contain'}}
-              source={require("./img/next.png")}/>
-          </TouchableOpacity>
-
-          <Text
-            style={{alignSelf: 'center', fontSize: 12, color: 'white', width: currentFormated.length == 5 ? 35:56, textAlign: 'right'}}>
-            {currentFormated}
-          </Text>
-          <Text
-            style={{alignSelf: 'center', fontSize: 12, color: 'white'}}>
-                /  
-          </Text>
-          <Text
-            style={{alignSelf: 'center', fontSize: 12, color: 'white', width: totalFormated.length == 5 ? 35:56, marginRight: 10}}>
-              {totalFormated}
-          </Text>
-          <View style={{flex:1,justifyContent:"flex-end",flexDirection:"row"}}>
-            {selectSourceView}
-            <TouchableOpacity style={{width: 40, height: 40, alignItems: 'center', justifyContent: 'center'}}
-                onPress={this.props.fullScreen}>
-                <Image 
-                    source={this.props.screenOrientation == 0 ? require("./img/exit-fullscreen.png"): require("./img/fullscreen.png")}
-                    style={{width:22,height:22}}/>
+        <View style={controlStyle.controlBar}>
+            <TouchableOpacity
+                onPress={this.props.onPauseOrPlay} style={controlStyle.playButtonContainer}>
+                <Image style={controlStyle.controlIcon}
+                    source={this.props.playing ? require('./img/media-player-pause.png') : require('./img/media-player-play.png')}/>
             </TouchableOpacity>
-          </View>
-          
-        </View>
-        <Slider
-            style={{flex: 1 ,height:10, position:'absolute',left:0,top:0,right:0}}
-            trackContainerStyle={{height: 2, backgroundColor: 'gray'}}
-            thumbImage={require('./img/media-player-thumb.png')}
-            thumbStyle={{width: 10, height: 10}}
-            
-            onSlidingComplete={(value) => {
-              console.log("slider value = " + value ) ;
-              this.setState({
-                sliding: false,
-                current: value
-              });
-              this.props.onSeekTo && this.props.onSeekTo(value);
-            }}
-            onValueChange={(value) => {
-              this.setState({
-                sliding: true,
-                current: value
-              });
-            }}
-            maximumValue={this.props.total}
-            minimumValue={0}
-            value={this.state.current}
-            disabled={this.props.total > 0}
-            tracks={tracks}
-          />
 
-          <Text
-            style={{alignSelf: 'center', fontSize: 12, color: 'white', width: totalFormated.length == 5 ? 35:56, marginRight: 10}}>
-            {totalFormated}
-          </Text>
+            <Text style={controlStyle.timeText}>{currentFormated}</Text>
+
+            <Slider
+                style={controlStyle.processBarContainer}
+                thumbImage={require('./img/media-player-thumb.png')}
+                trackStyle={controlStyle.processBarTrack}
+                thumbStyle={controlStyle.processBarThumb}
+
+                onSlidingComplete={(value) => {
+                    console.log("slider value = " + value);
+                    this.setState({
+                        sliding: false,
+                        current: value
+                    });
+                    this.props.onSeekTo && this.props.onSeekTo(value);
+                }}
+                onValueChange={(value) => {
+                    this.setState({
+                        sliding: true,
+                        current: value
+                    });
+                }}
+                maximumValue={this.props.total}
+                minimumValue={0}
+                value={this.state.current}
+                tracks={tracks}
+                minimumTrackTintColor='green'
+                maximumTrackTintColor='gray'
+            />
+            <Text style={controlStyle.timeText}>{totalFormated}</Text>
+            <TouchableOpacity style={controlStyle.fullscreenButtonContainer} onPress={this.props.fullScreen}>
+                <Image style={controlStyle.controlIcon}
+                    source={this.props.screenOrientation == 0 ? require("./img/exit-fullscreen.png"): require("./img/fullscreen.png")}
+                    />
+            </TouchableOpacity>
         </View>
 
     );
   }
 }
+
+const controlStyle = StyleSheet.create({
+    controlBar: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        bottom: 0,
+        height: 40,
+        backgroundColor: '#00000088',
+        flexDirection: 'row'
+    },
+    playButtonContainer: {
+        width: 40,
+        height: 40,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    timeText:{
+        alignSelf: 'center',
+        fontSize: 12,
+        color: 'white',
+        width: 56,
+        textAlign: 'center'
+    },
+    controlIcon:{
+        width:20,
+        height:20
+    },
+    fullscreenButtonContainer:{
+        width: 30,
+        height: 40,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    processBarContainer: {
+        alignSelf: 'center',
+        marginLeft:10,
+        marginRight:10,
+        width: width -200,
+    },
+    processBarTrack:{
+        height: 2,
+        borderRadius: 1,
+    },
+    processBarThumb: {
+        width: 16,
+        height: 16,
+        borderRadius: 16 / 2,
+        backgroundColor: 'white',
+        shadowColor: 'black',
+        shadowOffset: {width: 0, height: 2},
+        shadowRadius: 2,
+        shadowOpacity: 0.35,
+        top:20
+    }
+})
