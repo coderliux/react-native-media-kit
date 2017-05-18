@@ -63,7 +63,8 @@ export default class Controls extends React.Component {
         total: 0,
         buffering: false,
         playing: false,
-        screenOrientation: 1
+        screenOrientation: 1,
+        rotation:false,
     }
 
     constructor(props) {
@@ -133,15 +134,18 @@ export default class Controls extends React.Component {
             ) ;
         }
 
+        console.log("137 render controller playing:" +this.props.playing)
+        console.log("138 render controller rotation:" +this.props.rotation)
+
         return (
             <View style={controlStyle.controlBar}>
                 <TouchableOpacity onPress={this.props.onPauseOrPlay} style={controlStyle.playButtonContainer}>
-                    <Icon color='white' name={this.props.playing ?'control-play':'control-pause'} size={20} />
+                    <Icon color='white' name={this.props.playing ?'control-pause':'control-play'} size={20} />
                 </TouchableOpacity>
 
                 <Text style={controlStyle.timeText}>{currentFormated}</Text>
                 <Slider
-                    style={controlStyle.processBarContainer}
+                    style={[controlStyle.processBarContainer,(this.props.rotation?{width:height-200}:{width:width-200})]}
                     thumbImage={require('./img/media-player-thumb.png')}
                     trackStyle={controlStyle.processBarTrack}
                     thumbStyle={controlStyle.processBarThumb}
