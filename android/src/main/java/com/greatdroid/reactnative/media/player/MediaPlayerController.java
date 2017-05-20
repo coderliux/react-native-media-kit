@@ -23,6 +23,7 @@ import com.google.android.exoplayer.MediaCodecTrackRenderer;
 import com.google.android.exoplayer.MediaCodecVideoTrackRenderer;
 import com.google.android.exoplayer.TrackRenderer;
 import com.google.android.exoplayer.audio.AudioTrack;
+import com.google.android.exoplayer.drm.ExoMediaDrm;
 import com.google.android.exoplayer.drm.MediaDrmCallback;
 import com.google.android.exoplayer.metadata.MetadataTrackRenderer;
 import com.google.android.exoplayer.metadata.id3.Id3Frame;
@@ -30,10 +31,10 @@ import com.google.android.exoplayer.text.Cue;
 import com.google.android.exoplayer.text.TextRenderer;
 import com.google.android.exoplayer.upstream.BandwidthMeter;
 import com.google.android.exoplayer.util.Util;
-import com.greatdroid.reactnative.media.player.trackrenderer.DashRenderersBuilder;
-import com.greatdroid.reactnative.media.player.trackrenderer.ExtractorRenderersBuilder;
-import com.greatdroid.reactnative.media.player.trackrenderer.HlsRenderersBuilder;
-import com.greatdroid.reactnative.media.player.trackrenderer.SmoothStreamingRenderersBuilder;
+import com.greatdroid.reactnative.media.player.player.DashRendererBuilder;
+import com.greatdroid.reactnative.media.player.player.ExtractorRendererBuilder;
+import com.greatdroid.reactnative.media.player.player.HlsRendererBuilder;
+import com.greatdroid.reactnative.media.player.player.SmoothStreamingRendererBuilder;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -182,13 +183,13 @@ public class MediaPlayerController {
 
     switch (contentType) {
       case Util.TYPE_DASH:
-        return new DashRenderersBuilder(context, userAgent, uriString, mainHandler, mediaDrmCallback, internalEventListener, internalEventListener, internalEventListener, bandwidthMeterListener, exoPlayer.getPlaybackLooper());
+        return new DashRendererBuilder(context, userAgent, uriString, mediaDrmCallback);
       case Util.TYPE_HLS:
-        return new HlsRenderersBuilder(context, userAgent, uriString, mainHandler, internalEventListener, internalEventListener, internalEventListener, internalEventListener, bandwidthMeterListener);
+        return new HlsRendererBuilder(context, userAgent, uriString, mainHandler);
       case Util.TYPE_SS:
-        return new SmoothStreamingRenderersBuilder(context, userAgent, uriString, mainHandler, mediaDrmCallback, internalEventListener, internalEventListener, internalEventListener, bandwidthMeterListener, exoPlayer.getPlaybackLooper());
+        return new SmoothStreamingRendererBuilder(context, userAgent, uriString, mainHandler, mediaDrmCallback);
       case Util.TYPE_OTHER:
-        return new ExtractorRenderersBuilder(context, userAgent, uri, mainHandler, internalEventListener, internalEventListener, internalEventListener, bandwidthMeterListener);
+        return new ExtractorRendererBuilder(context, userAgent, uri, mainHandler);
       default:
         throw new IllegalStateException("Unsupported content type: " + contentType);
     }
@@ -480,12 +481,12 @@ public class MediaPlayerController {
 
   private final MediaDrmCallback mediaDrmCallback = new MediaDrmCallback() {
     @Override
-    public byte[] executeProvisionRequest(UUID uuid, MediaDrm.ProvisionRequest request) throws Exception {
+    public byte[] executeProvisionRequest(UUID uuid, ExoMediaDrm.ProvisionRequest request) throws Exception {
       return new byte[0];
     }
 
     @Override
-    public byte[] executeKeyRequest(UUID uuid, MediaDrm.KeyRequest request) throws Exception {
+    public byte[] executeKeyRequest(UUID uuid, ExoMediaDrm.KeyRequest request) throws Exception {
       return new byte[0];
     }
   };

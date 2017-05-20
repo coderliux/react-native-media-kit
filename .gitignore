@@ -1,6 +1,9 @@
 /.idea/
-
+/node_modules/
+/gradle/
+*.iml
 # OSX
+
 #
 .DS_Store
 

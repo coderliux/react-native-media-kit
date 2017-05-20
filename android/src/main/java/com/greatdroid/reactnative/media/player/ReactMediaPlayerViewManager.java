@@ -20,7 +20,6 @@ import com.facebook.react.uimanager.UIManagerModule;
 import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.uimanager.events.Event;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
-import com.greatdroid.reactnative.media.MainActivityInstance;
 
 import java.util.Map;
 
