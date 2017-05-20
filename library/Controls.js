@@ -183,7 +183,6 @@ export default class Controls extends React.Component {
 
 const controlStyle = StyleSheet.create({
     controlBar: {
-        position: 'absolute',
         left: 0,
         right: 0,
         bottom: 0,
