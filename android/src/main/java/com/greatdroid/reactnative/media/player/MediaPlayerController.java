@@ -139,35 +139,35 @@ public class MediaPlayerController {
 
   private void renderTracks(String uri) {
     this.trackRenderersBuilder = createTrackRenderersBuilder(context, uri);
-    this.trackRenderersBuilder.build(new TrackRenderersBuilder.Callback() {
-      @Override
-      public void onFinish(TrackRenderer[] trackRenderers) {
-        Log.d(TAG, "renderTracks...track renderers built");
-        for (int i = 0; i < TrackRenderersBuilder.TRACK_RENDER_COUNT; i++) {
-          if (trackRenderers[i] == null) {
-            // Convert a null renderer to a dummy renderer.
-            trackRenderers[i] = new DummyTrackRenderer();
-          }
-        }
-        videoTrackRenderer = trackRenderers[TrackRenderersBuilder.TRACK_VIDEO_INDEX];
-        audioTrackRenderer = trackRenderers[TrackRenderersBuilder.TRACK_AUDIO_INDEX];
-        exoPlayer.prepare(trackRenderers);
-
-        if (surfaceTexture != null) {
-          setSurface(new Surface(surfaceTexture));
-        }
-
-        if (muted) {
-          setMuted(true);
-        }
-      }
-
-      @Override
-      public void onError(Exception e) {
-        Log.e(TAG, "renderTracks...failed to build track renderers", e);
-        notifyError(e);
-      }
-    });
+//    this.trackRenderersBuilder.build(new TrackRenderersBuilder.Callback() {
+//      @Override
+//      public void onFinish(TrackRenderer[] trackRenderers) {
+//        Log.d(TAG, "renderTracks...track renderers built");
+//        for (int i = 0; i < TrackRenderersBuilder.TRACK_RENDER_COUNT; i++) {
+//          if (trackRenderers[i] == null) {
+//            // Convert a null renderer to a dummy renderer.
+//            trackRenderers[i] = new DummyTrackRenderer();
+//          }
+//        }
+//        videoTrackRenderer = trackRenderers[TrackRenderersBuilder.TRACK_VIDEO_INDEX];
+//        audioTrackRenderer = trackRenderers[TrackRenderersBuilder.TRACK_AUDIO_INDEX];
+//        exoPlayer.prepare(trackRenderers);
+//
+//        if (surfaceTexture != null) {
+//          setSurface(new Surface(surfaceTexture));
+//        }
+//
+//        if (muted) {
+//          setMuted(true);
+//        }
+//      }
+//
+//      @Override
+//      public void onError(Exception e) {
+//        Log.e(TAG, "renderTracks...failed to build track renderers", e);
+//        notifyError(e);
+//      }
+//    });
   }
 
   private TrackRenderersBuilder createTrackRenderersBuilder(Context context, String uriString) {
@@ -185,11 +185,11 @@ public class MediaPlayerController {
       case Util.TYPE_DASH:
         return new DashRendererBuilder(context, userAgent, uriString, mediaDrmCallback);
       case Util.TYPE_HLS:
-        return new HlsRendererBuilder(context, userAgent, uriString, mainHandler);
+        return new HlsRendererBuilder(context, userAgent, uriString);
       case Util.TYPE_SS:
-        return new SmoothStreamingRendererBuilder(context, userAgent, uriString, mainHandler, mediaDrmCallback);
+        return new SmoothStreamingRendererBuilder(context, userAgent, uriString, mediaDrmCallback);
       case Util.TYPE_OTHER:
-        return new ExtractorRendererBuilder(context, userAgent, uri, mainHandler);
+        return new ExtractorRendererBuilder(context, userAgent, uri);
       default:
         throw new IllegalStateException("Unsupported content type: " + contentType);
     }

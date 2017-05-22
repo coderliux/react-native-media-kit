@@ -46,14 +46,15 @@ import com.google.android.exoplayer.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer.upstream.DefaultUriDataSource;
 import com.google.android.exoplayer.util.ManifestFetcher;
 import com.google.android.exoplayer.util.ManifestFetcher.ManifestCallback;
+import com.greatdroid.reactnative.media.player.TrackRenderersBuilder;
 
 import java.io.IOException;
 import java.util.List;
 
 /**
- * A {@link RendererBuilder} for HLS.
+ * A {@link TrackRenderersBuilder} for HLS.
  */
-public class HlsRendererBuilder implements DemoPlayer.RendererBuilder {
+public class HlsRendererBuilder implements TrackRenderersBuilder {
 
   private static final int BUFFER_SEGMENT_SIZE = 64 * 1024;
   private static final int MAIN_BUFFER_SEGMENTS = 254;

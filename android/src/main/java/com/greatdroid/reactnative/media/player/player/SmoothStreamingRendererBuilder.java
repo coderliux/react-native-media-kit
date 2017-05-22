@@ -35,6 +35,7 @@ import com.google.android.exoplayer.drm.FrameworkMediaCrypto;
 import com.google.android.exoplayer.drm.MediaDrmCallback;
 import com.google.android.exoplayer.drm.StreamingDrmSessionManager;
 import com.google.android.exoplayer.drm.UnsupportedDrmException;
+import com.google.android.exoplayer.hls.HlsPlaylist;
 import com.google.android.exoplayer.smoothstreaming.DefaultSmoothStreamingTrackSelector;
 import com.google.android.exoplayer.smoothstreaming.SmoothStreamingChunkSource;
 import com.google.android.exoplayer.smoothstreaming.SmoothStreamingManifest;
@@ -47,11 +48,12 @@ import com.google.android.exoplayer.upstream.DefaultHttpDataSource;
 import com.google.android.exoplayer.upstream.DefaultUriDataSource;
 import com.google.android.exoplayer.util.ManifestFetcher;
 import com.google.android.exoplayer.util.Util;
+import com.greatdroid.reactnative.media.player.TrackRenderersBuilder;
 
 import java.io.IOException;
 
 
-public class SmoothStreamingRendererBuilder implements DemoPlayer.RendererBuilder {
+public class SmoothStreamingRendererBuilder implements TrackRenderersBuilder{
 
   private static final int BUFFER_SEGMENT_SIZE = 64 * 1024;
   private static final int VIDEO_BUFFER_SEGMENTS = 200;

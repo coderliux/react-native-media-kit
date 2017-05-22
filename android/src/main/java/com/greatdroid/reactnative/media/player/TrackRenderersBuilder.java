@@ -1,6 +1,7 @@
 package com.greatdroid.reactnative.media.player;
 
 import com.google.android.exoplayer.TrackRenderer;
+import com.greatdroid.reactnative.media.player.player.DemoPlayer;
 
 public interface TrackRenderersBuilder {
 
@@ -11,7 +12,8 @@ public interface TrackRenderersBuilder {
   int TRACK_TEXT_INDEX = 2;
   int TRACK_METADATA_INDEX = 3;
 
-  void build(Callback callback);
+//  void build(Callback callback);
+  void buildRenderers(DemoPlayer player);
 
   void cancel();
 

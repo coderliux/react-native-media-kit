@@ -33,9 +33,10 @@ import com.google.android.exoplayer.upstream.DataSource;
 import com.google.android.exoplayer.upstream.DefaultAllocator;
 import com.google.android.exoplayer.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer.upstream.DefaultUriDataSource;
+import com.greatdroid.reactnative.media.player.TrackRenderersBuilder;
 
 
-public class ExtractorRendererBuilder implements DemoPlayer.RendererBuilder {
+public class ExtractorRendererBuilder implements TrackRenderersBuilder {
 
   private static final int BUFFER_SEGMENT_SIZE = 64 * 1024;
   private static final int BUFFER_SEGMENT_COUNT = 256;
