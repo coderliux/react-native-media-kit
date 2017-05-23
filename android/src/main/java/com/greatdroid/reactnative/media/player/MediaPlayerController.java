@@ -31,10 +31,10 @@ import com.google.android.exoplayer.text.Cue;
 import com.google.android.exoplayer.text.TextRenderer;
 import com.google.android.exoplayer.upstream.BandwidthMeter;
 import com.google.android.exoplayer.util.Util;
-import com.greatdroid.reactnative.media.player.player.DashRendererBuilder;
-import com.greatdroid.reactnative.media.player.player.ExtractorRendererBuilder;
-import com.greatdroid.reactnative.media.player.player.HlsRendererBuilder;
-import com.greatdroid.reactnative.media.player.player.SmoothStreamingRendererBuilder;
+import com.greatdroid.reactnative.media.player.trackrenderer.DashRenderersBuilder;
+import com.greatdroid.reactnative.media.player.trackrenderer.ExtractorRenderersBuilder;
+import com.greatdroid.reactnative.media.player.trackrenderer.HlsRenderersBuilder;
+import com.greatdroid.reactnative.media.player.trackrenderer.SmoothStreamingRenderersBuilder;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -139,35 +139,35 @@ public class MediaPlayerController {
 
   private void renderTracks(String uri) {
     this.trackRenderersBuilder = createTrackRenderersBuilder(context, uri);
-//    this.trackRenderersBuilder.build(new TrackRenderersBuilder.Callback() {
-//      @Override
-//      public void onFinish(TrackRenderer[] trackRenderers) {
-//        Log.d(TAG, "renderTracks...track renderers built");
-//        for (int i = 0; i < TrackRenderersBuilder.TRACK_RENDER_COUNT; i++) {
-//          if (trackRenderers[i] == null) {
-//            // Convert a null renderer to a dummy renderer.
-//            trackRenderers[i] = new DummyTrackRenderer();
-//          }
-//        }
-//        videoTrackRenderer = trackRenderers[TrackRenderersBuilder.TRACK_VIDEO_INDEX];
-//        audioTrackRenderer = trackRenderers[TrackRenderersBuilder.TRACK_AUDIO_INDEX];
-//        exoPlayer.prepare(trackRenderers);
-//
-//        if (surfaceTexture != null) {
-//          setSurface(new Surface(surfaceTexture));
-//        }
-//
-//        if (muted) {
-//          setMuted(true);
-//        }
-//      }
-//
-//      @Override
-//      public void onError(Exception e) {
-//        Log.e(TAG, "renderTracks...failed to build track renderers", e);
-//        notifyError(e);
-//      }
-//    });
+    this.trackRenderersBuilder.build(new TrackRenderersBuilder.Callback() {
+      @Override
+      public void onFinish(TrackRenderer[] trackRenderers) {
+        Log.d(TAG, "renderTracks...track renderers built");
+        for (int i = 0; i < TrackRenderersBuilder.TRACK_RENDER_COUNT; i++) {
+          if (trackRenderers[i] == null) {
+            // Convert a null renderer to a dummy renderer.
+            trackRenderers[i] = new DummyTrackRenderer();
+          }
+        }
+        videoTrackRenderer = trackRenderers[TrackRenderersBuilder.TRACK_VIDEO_INDEX];
+        audioTrackRenderer = trackRenderers[TrackRenderersBuilder.TRACK_AUDIO_INDEX];
+        exoPlayer.prepare(trackRenderers);
+
+        if (surfaceTexture != null) {
+          setSurface(new Surface(surfaceTexture));
+        }
+
+        if (muted) {
+          setMuted(true);
+        }
+      }
+
+      @Override
+      public void onError(Exception e) {
+        Log.e(TAG, "renderTracks...failed to build track renderers", e);
+        notifyError(e);
+      }
+    });
   }
 
   private TrackRenderersBuilder createTrackRenderersBuilder(Context context, String uriString) {
@@ -183,13 +183,13 @@ public class MediaPlayerController {
 
     switch (contentType) {
       case Util.TYPE_DASH:
-        return new DashRendererBuilder(context, userAgent, uriString, mediaDrmCallback);
+        return new DashRenderersBuilder(context, userAgent, uriString, mainHandler, mediaDrmCallback, internalEventListener, internalEventListener, internalEventListener, bandwidthMeterListener, exoPlayer.getPlaybackLooper());
       case Util.TYPE_HLS:
-        return new HlsRendererBuilder(context, userAgent, uriString);
+        return new HlsRenderersBuilder(context, userAgent, uriString, mainHandler, internalEventListener, internalEventListener, internalEventListener, internalEventListener, bandwidthMeterListener);
       case Util.TYPE_SS:
-        return new SmoothStreamingRendererBuilder(context, userAgent, uriString, mediaDrmCallback);
+        return new SmoothStreamingRenderersBuilder(context, userAgent, uriString, mainHandler, mediaDrmCallback, internalEventListener, internalEventListener, internalEventListener, bandwidthMeterListener, exoPlayer.getPlaybackLooper());
       case Util.TYPE_OTHER:
-        return new ExtractorRendererBuilder(context, userAgent, uri);
+        return new ExtractorRenderersBuilder(context, userAgent, uri, mainHandler, internalEventListener, internalEventListener, internalEventListener, bandwidthMeterListener);
       default:
         throw new IllegalStateException("Unsupported content type: " + contentType);
     }
