@@ -1,11 +1,9 @@
 package com.greatdroid.reactnative.media.player;
 
 import android.content.Context;
-import android.os.PowerManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import com.facebook.react.bridge.LifecycleEventListener;

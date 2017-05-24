@@ -23,6 +23,7 @@ import com.google.android.exoplayer.MediaCodecTrackRenderer;
 import com.google.android.exoplayer.MediaCodecVideoTrackRenderer;
 import com.google.android.exoplayer.TrackRenderer;
 import com.google.android.exoplayer.audio.AudioTrack;
+import com.google.android.exoplayer.drm.ExoMediaDrm;
 import com.google.android.exoplayer.drm.MediaDrmCallback;
 import com.google.android.exoplayer.metadata.MetadataTrackRenderer;
 import com.google.android.exoplayer.metadata.id3.Id3Frame;
@@ -480,12 +481,12 @@ public class MediaPlayerController {
 
   private final MediaDrmCallback mediaDrmCallback = new MediaDrmCallback() {
     @Override
-    public byte[] executeProvisionRequest(UUID uuid, MediaDrm.ProvisionRequest request) throws Exception {
+    public byte[] executeProvisionRequest(UUID uuid, ExoMediaDrm.ProvisionRequest request) throws Exception {
       return new byte[0];
     }
 
     @Override
-    public byte[] executeKeyRequest(UUID uuid, MediaDrm.KeyRequest request) throws Exception {
+    public byte[] executeKeyRequest(UUID uuid, ExoMediaDrm.KeyRequest request) throws Exception {
       return new byte[0];
     }
   };

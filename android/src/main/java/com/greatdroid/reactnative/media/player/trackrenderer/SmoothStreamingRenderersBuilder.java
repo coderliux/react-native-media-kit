@@ -107,7 +107,7 @@ public class SmoothStreamingRenderersBuilder implements TrackRenderersBuilder, M
         return;
       }
       try {
-        drmSessionManager = new StreamingDrmSessionManager(manifest.protectionElement.uuid,
+        drmSessionManager = StreamingDrmSessionManager.newFrameworkInstance(manifest.protectionElement.uuid,
           playbackLooper, drmCallback, null, eventHandler, new StreamingDrmSessionManager.EventListener() {
           @Override
           public void onDrmKeysLoaded() {

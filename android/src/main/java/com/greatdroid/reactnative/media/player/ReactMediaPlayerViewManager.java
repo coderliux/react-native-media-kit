@@ -2,10 +2,8 @@ package com.greatdroid.reactnative.media.player;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
-import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.view.View;
 import android.view.WindowManager;
 
 import com.facebook.react.bridge.ReadableArray;
