@@ -172,9 +172,9 @@ export default class Controls extends React.Component {
                     maximumTrackTintColor='gray'
                 />
                 <Text style={controlStyle.timeText}>{totalFormated}</Text>
-                <TouchableOpacity style={controlStyle.fullscreenButtonContainer} onPress={this.props.fullScreen}>
+                {(!this.props.isTrainning)&&<TouchableOpacity style={controlStyle.fullscreenButtonContainer} onPress={this.props.fullScreen}>
                     <Icon color='white' name={this.props.screenOrientation == 0 ?'size-actual':'size-fullscreen'} size={20} />
-                </TouchableOpacity>
+                </TouchableOpacity>}
             </View>
 
         );
