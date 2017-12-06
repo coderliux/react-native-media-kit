@@ -21,6 +21,7 @@ import ReactNative, {
 
 import {Actions} from 'react-native-router-flux'
 import Controls from './Controls';
+import KeepScreenOn from 'react-native-keep-screen-on'
 const {width, height} = Dimensions.get('window');
 
 const UIManager = NativeModules.UIManager;
@@ -88,6 +89,7 @@ export default class MediaPlayerView extends React.Component {
     }
     componentDidMount(){
         this.controlAnimation();
+        KeepScreenOn.setKeepScreenOn(true)
     }
     componentWillMount() {
         if (Platform.OS === 'android') {
@@ -100,7 +102,7 @@ export default class MediaPlayerView extends React.Component {
         if (Platform.OS === 'android') {
             BackAndroid.removeEventListener('hardwareBackPress', this.onBackAndroid);
         }
-
+        KeepScreenOn.setKeepScreenOn(false)
     }
     onBackAndroid = () => {
 
