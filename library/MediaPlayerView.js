@@ -15,7 +15,7 @@ import ReactNative, {
     TouchableOpacity ,
     ActivityIndicator,
     Platform,
-    BackAndroid,
+    BackHandler,
 
 } from 'react-native';
 
@@ -93,14 +93,14 @@ export default class MediaPlayerView extends React.Component {
     }
     componentWillMount() {
         if (Platform.OS === 'android') {
-            BackAndroid.addEventListener('hardwareBackPress', this.onBackAndroid);
+            BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid);
         }
     }
     componentWillUnmount() {
         this.stop();
         this.timer && clearTimeout(this.timer);
         if (Platform.OS === 'android') {
-            BackAndroid.removeEventListener('hardwareBackPress', this.onBackAndroid);
+            BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid);
         }
         KeepScreenOn.setKeepScreenOn(false)
     }
