@@ -406,8 +406,8 @@ export default class MediaPlayerView extends React.Component {
     }
 
     seekTo(timeMs) {
-        if(!this.showControl&&!this.state.isplaying)
-            return ;
+//         if(!this.showControl&&!this.state.isplaying)
+//             return ;
         if(!this.props.canSeekUnwatch){
             let maxSeek = Math.max(this.state.current , this.seekBackCurrent) ;
             console.log("seek = " , maxSeek , this.state.current , this.seekBackCurrent);
